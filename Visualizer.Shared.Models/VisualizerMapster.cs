@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Mapster;
 using Redis.OM.Modeling;
@@ -13,8 +13,7 @@ public class VisualizerMapster
     {
         // Config Mapster
         TypeAdapterConfig<DateTimeOffset, DateTime>.NewConfig()
-            .MapWith(offset => offset.DateTime)
-            ;
+            .MapWith(offset => offset.DateTime);
         TypeAdapterConfig<TweetV2EventArgs, TweetModel>.NewConfig()
             .Map(dest => dest.Id, src => src.Tweet.Id)
             .Map(dest => dest.AuthorId, src => src.Tweet.AuthorId)
@@ -35,12 +34,10 @@ public class VisualizerMapster
                 src => new GeoLoc(src.Tweet.Geo.Coordinates.Coordinates[0], src.Tweet.Geo.Coordinates.Coordinates[1]),
                 src => src.Tweet.Geo != null && src.Tweet.Geo.Coordinates != null && src.Tweet.Geo.Coordinates.Coordinates != null && src.Tweet.Geo.Coordinates.Coordinates != null && src.Tweet.Geo.Coordinates.Coordinates.Length > 0)
             .Map(dest => dest.HasGeoLoc,
-                src => src.Tweet != null && src.Tweet.Geo != null && src.Tweet.Geo.Coordinates != null ? "1" : "0")
-            ;
+                src => src.Tweet != null && src.Tweet.Geo != null && src.Tweet.Geo.Coordinates != null ? "1" : "0");
         TypeAdapterConfig<TweetEntitiesV2, TweetEntities>.NewConfig()
             .Map(dest => dest.Hashtags, src => src.Hashtags.Select(h => h.Tag), src => src.Hashtags != null)
             .Map(dest => dest.Cashtags, src => src.Cashtags.Select(c => c.Tag), src => src.Cashtags != null)
-            .Map(dest => dest.Mentions, src => src.Mentions.Select(m => m.Username), src => src.Mentions != null)
-            ;
+            .Map(dest => dest.Mentions, src => src.Mentions.Select(m => m.Username), src => src.Mentions != null);
     }
 }
